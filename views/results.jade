@@ -1,0 +1,33 @@
+include mixins.jade
+html
+  head
+    title=title
+    link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/search.css', rel='stylesheet')
+  body
+    .container   
+        .hgroup.mb20
+            form.form-search(action='/search')
+                .input-group
+                    input.form-control(type='text' value=query name='query')
+                    span.input-group-btn
+                        button.btn.btn-default(type='submit')
+                            i.glyphicon.glyphicon-search
+        hgroup.mb20
+          h1 Search Results
+          h2.lead
+            strong.text-danger= count
+            |  results were found for the search for 
+            strong.text-danger= query
+            | . Page 
+            strong.text-danger= page
+            |  of  
+            strong.text-danger= Math.ceil(count/20)
+        section.col-xs-12.col-sm-6.col-md-12
+            +pagination(page,Math.ceil(count/20),baseurl,query)
+        section.col-xs-12.col-sm-6.col-md-12
+          each val in items
+            //mixin result(date,value,link,title,description)
+            +result(val.update_time,1.23456,val.url,val.title,val.url_hash + " - "+val.url)
+        section.col-xs-12.col-sm-6.col-md-12
+            +pagination(page,Math.ceil(count/20),baseurl,query)
